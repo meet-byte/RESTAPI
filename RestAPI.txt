@@ -1,0 +1,304 @@
+ Getting started with designing The APIs:
+ --------------------------------------------------------------------
+ STEP 1: Create a New APIs
+    Title: OpenAPI Specifications for the CMS
+    Description: APIS Specifications document of the CMS System
+    Contract: Praveenkumar Bauna
+    version:1.0
+
+STEP:2 Identify the Type of APIS
+public
+
+
+Overview of the Restful APIS
+------------------------------------------------------------
+Step:3 Identify the Server BASE URL
+    http://[hostname]:{port}/{directory}
+    http://localhost:44333
+
+Designing API Resources
+----------------------------------------------------------------
+STEP 4: Identify the Resources
+    course
+    student
+
+STEP 5:Have the Resources As Plural
+    courses(/api/courses)
+    students(/api/students)
+
+STEP 6: Define resource model
+    Course model:
+            Course Id,
+            Course Name,
+            Course Duration,
+            Course Type
+    Student Model:
+            Student Id
+            First Name
+            Last Name
+            Phone Number
+            Address
+
+STEP 7: identifiers used in the API must be unique
+    Course model:
+            Course Id,(IDENTIFIER)
+            Course Name,
+            Course Duration,
+            Course Type
+    Student Model:
+            Student Id(IDENTIFIER)
+            First Name
+            Last Name
+            Phone Number
+            Address
+
+fILTER:
+/COLLEGES?TYPE=ENGINEERING
+
+Sort:
+/colleges/sortBy=collegeName
+
+Pagination:
+/colleges/pageNo=10&size=20
+
+Designing Associations between Resources
+---------------------------------------------------------------
+Step: 8 Identify the Associations For each Resources
+    Courses
+        /api/courses/{courseId}/students
+        /api/courses/{courseId}/course-subjects
+    Students
+        None
+
+
+URL of the API should not be complex it should be simpler
+like:collection/item/collection
+Good URL Design:
+/api/colleges
+/api/colleges/10
+/api/colleges/10/students
+
+Check for the URL Complexity
+----------------------------------------------------------------
+STEP:9 check for URL Complexity
+Courses
+    /api/courses
+    /api/courses/{courseId}
+    /api/courses/{courseId}/students
+
+Students
+    /api/students
+    /api/students/{studentId}
+
+Desing the API operations:
+----------------------------------------------------------------
+STEP:10 Identify the operations for each resource
+Courses     
+    /api/courses
+        GET
+        POST
+    /api/courses/(courseId)
+        GET
+        PUT
+        DELETE
+    /api/courses/(courseId)/Students
+        GET
+        POST
+Students   
+        /api/students
+            GET
+            POST
+---------------------------------------------------------------------
+
+STEP-11 Identify the Parameters Required for the operations
+    Query Parameters
+        None
+    
+    Path Parameters
+        None- Collections
+        courseId- Unique course Id of the course model (applicable for individual item)
+
+    Headers:
+        None
+    Cookies:
+        None
+
+----------------------------------------------------------------
+
+Designing request content
+STEP:12
+----------------------------------------------------------------
+ identify the contetn type for request
+        application/JSON
+
+
+STEP-13
+------------------------------------------------------------------
+status codes:
+4xx -error with client side
+5xx-- error with server side
+
+2XX status code:
+200 OK  --- conains the some portio of the clients
+201 created
+204 No Content
+
+4XX series:
+400 Bad Request --- not senf the data in proper format
+401 unauthorized -- requested perosn does not have an access to the system
+403 Forbidden --denoates client cannot access resource
+404 Not Found -- not found at server side
+405 Method not allowed --method not allowed by the client
+
+5XX Series:
+500- internal server Error
+501 - Not Implemented
+-----------------------------------------------
+designing status code in response
+for GET operation:
+Seccessful 200 OK
+Resource canot found 404 Not Found
+
+New resource created 201 CREATED
+invalid input: 400 Bad Request
+No content :204 No Content
+
+for put operation:
+Successful uodate: 200 OK
+success New resource created 201 Created
+Success no result exist: 204 No Content
+
+for delete:
+Successful deletion:
+204 No Content
+
+Resource can't found:
+404 not Found
+-----------------------------------------------
+Step:14 Identify the HTTp codes for the APis operations:
+Courses     
+    /api/courses
+        GET
+            200 OK
+        POST
+            HTTP 201 Created
+            HTTP 400 Bad Request
+    /api/courses/(courseId)
+        GET
+            HTTP 200 OK
+            HTTP 404 Not Found
+        PUT
+            HTTP 200 OK
+            HTTP 404 Not Found
+           
+        DELETE
+            HTTP 204 No Content
+            HTTP 404 Not Found
+    /api/courses/(courseId)/Students
+        GET
+        POST
+
+
+----------------------------------------------------------------
+
+Chosing the format of the responseL
+format data
+can support more than 1 format
+check the available formats
+
+
+Response FOrmat:
+application:
+application/json
+application/xml
+application/octet-stream
+
+text:
+text/plain
+text/csv
+text/html
+
+image:
+image/png
+image/jpeg
+
+----------------------------------------------------------------
+Step-15 Identify the content type of the response for the operation:
+application/json
+
+
+designing the respondse body
+follow naming convention
+Dont expose database details
+array of items for the collection
+consider supporting pagination for collections
+---------------------------------------------------------------
+Step-16 identify the reposne body fir all the operations:
+format the resposnse for all the resposnse:
+---------------------------------------------------------------
+        /api/courses
+            GET
+                (Array)
+                courseId,
+                courseName,
+                courseDuration,
+                courseType
+            POST
+                courseId,
+                courseName,
+                courseDuration,
+                courseType
+        /api/courses/{courseId}
+            GET
+                courseId,
+                courseName,
+                courseDuration,
+                courseType
+            PUT
+                courseId
+                courseName,
+                courseDuration,
+                courseType
+            DELETE
+                None
+        /api/courses/{courseId}/students
+            GET
+                firstName,
+                lastName,
+                phoneNumber,
+                address
+            POST
+                firstName,
+                lastName,
+                phoneNumber,
+                address
+
+Classification of errors
+Client Side Errors:                  Server side errors
+invalid credentials                  Exceptions
+incorrect oarameters                 
+invalid ids
+
+STep-17 handle errors
+
+
+support for filtering data:
+return collections: GET/api/colleges
+
+with filter
+GET/api/colleges?zipcode=19007
+
+need of the pagination:
+GET/api/colleges>page=3&size=25
+
+Support for sorting data:
+GET/API/colleges?sort=collegeName
+
+sort by used to sort the data according to the field
+GET/api/colleges?sort=collegeName
+
+
+Step-21identifying the API Versioning anf set the API version
+Versioning Schemes can set the API Version
+Versioning scheme Used:URL Versioning
+Version:1.0

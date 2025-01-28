@@ -1,0 +1,301 @@
+API For College Management System:
+
+API Overview:
+ STEP 1: Create a New APIs
+    Title: OpenAPI Specifications for the CMS
+    Description: APIS Specifications document of the CMS System
+    Contract: Praveenkumar Bauna
+    version:1.0
+ Step 2:
+ API Type:Public
+ Step 3:
+ Server Base URL:http://localhost:44333/
+ 
+ Courses     
+
+------------------------------------------------------
+GET /api/v1/courses
+Content-type:application/json
+Request:
+Query parameters(optional)
+    courseType:
+        -supports Filtering.
+        -Filter the result by course type.
+        -example: Api/course?courseType='Engineering'
+    page:
+        - supports for pagination.
+        -filter result by the pagination.
+        - Example: /api/v1/courses?page=1&size=4
+    size:
+        -support for pagination.
+        -page size of the each result
+        - Example:/api/v1/courses/page=1&size=4
+
+Response:
+HTTP 200 Ok
+Content-type:application/json -- is req. and res has same ormat no need to specify this
+Response body format:
+      [
+       {
+            "courseId",
+            "courseName",
+            "courseDuration",
+            "courseType"
+         }
+      ]
+
+Example:
+[{
+            "courseId":2
+            "courseName":"Computer Science",
+            "courseDuration":4,
+            "courseType":"engineering"
+},
+{
+            "courseId":3
+            "courseName":"Computer Science",
+            "courseDuration":4,
+            "courseType":"engineering"
+}
+]
+
+Response:
+
+------------------------------------------------
+POST /api/v1/courses
+Content-type:application/json
+Request: Request Body FOrtmat:
+         {
+            "courseName",
+            "courseDuration",
+            "courseType"
+         }
+Example:
+{
+            "courseName":"Computer Science",
+            "courseDuration":4,
+            "courseType":"engineering"
+         }
+
+Response:
+ HTTP 201 Created
+       {
+            "courseId",
+            "courseName",
+            "courseDuration",
+            "courseType"
+         }
+      
+
+Example:
+{
+            "courseId":2
+            "courseName":"Computer Science",
+            "courseDuration":4,
+            "courseType":"engineering"
+}
+ HTTP 400 Bad Request
+ {
+"error":
+{
+"code": Unique error code for your project
+"message": Useful message for developers to identify the issue
+}
+}
+Example:
+{
+"error":
+{
+"code": "INVALID_INPUT",
+"message": "One or more input arguments are invalid",
+}
+}
+
+------------------------------------------------------
+
+GET /api/v1/courses/{courseId}
+Content-type:application/json
+Request:
+Example:
+GET /api/v1/v1/courses/1
+Response:
+
+   HTTP 200 OK:
+   Response Body Format:
+{
+"courseId": Unique ID of a course in the system
+"courseName": Name of the course
+"courseDuration": Duration of the course in years
+"courseType": Type of the course
+}
+Example:
+{
+"courseId": 1,
+"courseName": "Computer Science",
+"courseDuration": 4,
+"courseType": "Engineering"
+}
+
+   HTTP 404 Not Found:
+   {
+"error":
+{
+"code": Unique error code for your project
+"message": Useful message for developers to identify the issue
+}
+}
+Example:
+{
+"error":
+{
+"code": "INVALID_INPUT",
+"message": "One or more input arguments are invalid",
+}
+}
+------------------------------------------------------
+
+PUT /api/v1/courses/(courseId)
+Content-type:application/json
+Request:
+   est:
+Example:
+GET /api/v1/v1/courses/1
+
+ Request Body FOrtmat:
+         {
+            "courseName",
+            "courseDuration",
+            "courseType"
+         }
+Example:
+{
+            "courseName":"Computer Science",
+            "courseDuration":4,
+            "courseType":"engineering"
+         }
+Response:
+HTTP 200 OK
+Response Body Format:
+{
+"courseId": Unique ID of a course in the system
+"courseName": Name of the course
+"courseDuration": Duration of the course in years
+"courseType": Type of the course
+}
+Example:
+{
+"courseId": 1,
+"courseName": "Computer Science",
+"courseDuration": 4,
+"courseType": "Engineering"
+}
+
+HTTP 404 Not Found:
+Response Body Format:
+{
+"error":
+{
+"code": Unique error code for your project
+"message": Useful message for developers to identify the issue
+}
+}
+Example:
+{
+"error":
+{
+"code": "INVALID_INPUT",
+"message": "One or more input arguments are invalid",
+}
+}
+
+------------------------------------------------------
+
+DELETE  /api/v1/courses/(courseId)
+Content-type:application/json
+Request:None
+
+Response:
+ HTTP 204 No Content
+   None
+ HTTP 404 Not Found:
+ Response Body Format:
+ refer POST /api/v1/courses/{courseId} -
+------------------------------------------------------
+
+GET /api/v1/courses/(courseId)/Students
+Content-type:application/json
+Request:None
+Response:
+      200 OK  
+   Response Body Format:
+[
+{
+"studentId": Unique ID of a student in the system
+"firstName": First name of the student
+"lastName": Last name of the student
+"phoneNumber": Mobile number of the student
+“address": Permanent address of the student
+}
+]
+Example:
+[
+{
+"studentId": 101,
+"firstName": "James",
+"lastName": "Smith",
+"phoneNumber": "555-555-1234",
+"address": "US"
+},
+{
+"studentId": 102,
+"firstName": "Robert",
+"lastName": "Smith",
+"phoneNumber": "555-555-5678",
+"address": "US"
+}
+]
+ HTTP 400 BAD REQUEST
+-- refer POST /api/v1/courses --
+
+------------------------------------------------------
+
+POST /api/v1/courses/(courseId)/Students  
+Content-type:application/json
+Request:
+      Request Body Format:
+      {
+         "firstName",
+         "lastName",
+         "phoneNumber",
+         "address"
+      }
+      Example:
+      {
+         "firstName":"Meet",
+         "lastName":"Mavani",
+         "phoneNumber":7359788131,
+         "address" :"Surat"
+      }
+Response:
+      201 CREATED
+      EX:
+      {
+         "studentId",
+         "firstName",
+         "lastName",
+         "phoneNumber",
+         "address",
+         }
+         Examples:
+         {
+         "studentId": 101
+         "firstName": "James"
+         "lastName": "Smith"
+         "phoneNumber": "555-555-1234"
+         "address": "US"
+         }
+
+      400 BAD REQUEST  
+      -- refer POST /api/v1/courses --
+Identify the parameters:
+Contet-type:application/json
